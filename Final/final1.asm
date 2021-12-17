@@ -38,14 +38,15 @@ rd_wait:
 	lw	$t2, 4($t0)		# load data from receiver data register (actual input)
 					# $t2 = '1' -> '2' -> '3'
 	nop
-	addiu	$t2, $t2, -47		# subtract 47 to convert from ASCII characters to int 
+	addiu	$t2, $t2, -48		# subtract 48 to convert from ASCII characters to int 
 					# $t2 = 1 -> 2 -> 3
 	mul	$t2, $t2, $t3		# $t2 = 100 -> 20 -> 3
 	div	$t3, $t3, 10		# adjusting place value by lowering the multiplier
-	addu	$a0, $a0, $t2		# add the output to the argument register to print later
+	addu	$t4, $t4, $t2		# add the output to a temporary register to print later
 	bnez	$t3, rd_wait		# if the multplier is 0, then the number has been constructed
 	nop
 
+	move	$a0, $t4
 	li	$v0, 1			# print_int sys call code
 	syscall
 
