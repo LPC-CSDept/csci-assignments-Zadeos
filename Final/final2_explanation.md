@@ -2,10 +2,11 @@
 
 ## Explanation of the code:
 #### Description:
-Program to take digits through MM I/O and display them
+Program to take characters from user and display in console  
+until 'q' is typed.
 #### MIPS Simulation Settings:
 Bare Machine: OFF, Psuedo Instructions: ON, Mapped IO: ON,
-Delayed Branches: ON, Delayed Loads: ON
+Delayed Branches: OFF, Delayed Loads: OFF
 #### Register use:
 
 - `$t4` - value from status register
@@ -27,6 +28,6 @@ It was able to handle the numbers as expected, and was also able to handle the s
 In this test case, I inputted `hello world [ENTER]e[ENTER]llo worldq` to see if it could handle hitting the enter key.  
 It was able to enter a line break character just fine, and then exited when hitting the 'q' key.
 #### Fourth Test Case
-![Fourth Test Case (q)](./final1_q.png)</br>
+![Fourth Test Case (q)](./final2_q.png)</br>
 And finally, in this test case I inputted `q`. I kind of expected it to just exit right away, and that's exactly what happened.  
 Was this test case needed? Probably not but I wanted to see if anything unexpected happened.
