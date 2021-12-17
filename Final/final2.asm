@@ -7,15 +7,19 @@
 # until 'q' is typed.
 
 	.data
+
 pr1:	.asciiz "enter any characters, quit with 'q'\n"
 
 	.kdata
-thing1:	.word 10	# used for restoring registers
-thing2:	.word 11	# used for restoring registers
+
+thing1:	.word 10	# to be used in ktext
+thing2:	.word 11	# to be used in ktext
 
 	.text
 	.globl main
+
 main:
+
 	li	$v0, 4		# print_string sys call code
 	la	$a0, pr1	# address of prompt
 	syscall
@@ -29,4 +33,24 @@ main:
 
 	li	$v0, 10		# exit sys call code
 	syscall
-		
+
+await:
+
+	j await			# waiting for input weeeeeee
+
+	.ktext 0x80000180
+
+sw	$v0, thing1		# to be used in ktext
+sw	$a0, thing2		# to be used in ktext
+
+print:
+	li	$v0, 11		# print_char sys call code
+	syscall
+
+done:
+	lw	$v0, thing1	# restore $v0
+	lw	$a0, thing2	# restore $a0
+	mtc0	$zero, $t5	# clearing cause register
+	mfc0	$k0, $t4	# setting status register
+	li	$k0, 0x11	# enable interrupts
+	eret			# return to exception program counter
