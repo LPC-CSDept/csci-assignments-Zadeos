@@ -12,12 +12,13 @@
 
 	.data
 pr1:	.asciiz "please enter 3 numbers (e.g. 123): "
+pr2:	.asciiz "\nresult: "
 
 	.text
 	.globl main
 main:
-	
 
+	li	$t3, 100		# multiplier
 	li	$v0, 4			# print_string sys call code
 	la	$a0, pr1		# address of prompt
 	syscall
@@ -37,7 +38,6 @@ rd_wait:
 	nop
 	addiu	$t2, $t2, -47		# subtract 47 to convert from ASCII characters to int 
 					# $t2 = 1 -> 2 -> 3
-	li	$t3, 100		# multiplier
 	mul	$t2, $t2, $t3		# $t2 = 100 -> 20 -> 3
 	div	$t3, $t3, 10		# adjusting place value by lowering the multiplier
 	addu	$a0, $a0, $t2		# add the output to the argument register to print later
