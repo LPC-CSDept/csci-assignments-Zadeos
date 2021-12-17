@@ -31,9 +31,6 @@ main:
 	li	$a0, 2		# enable keyboard interrupt
 	sw	$a0, 0($t0)	# write back to the receiver data register
 
-	li	$v0, 10		# exit sys call code
-	syscall
-
 await:
 
 	j await			# waiting for input weeeeeee
@@ -42,6 +39,17 @@ await:
 
 sw	$v0, thing1		# to be used in ktext
 sw	$a0, thing2		# to be used in ktext
+mfc0	$k0, $t5		# get cause register
+srl	$a0, $k0, 2		# get exception code field (the bit field is 2 to the left)
+andi	$a0, $a0, 0x1F		# actually get the exception code
+bnez	$a0, done		# we're looking to handle IO (exception code 0)
+
+lui	$v0, 0xFFFF		# Receiver Control memory location
+lw	$a0, 4($v0)		# get the character from receiver data register
+bne	$a0, 113, print		# if they didn't enter 'q', go to print it
+
+li	$v0, 10			# exit sys call code
+syscall
 
 print:
 	li	$v0, 11		# print_char sys call code
