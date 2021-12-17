@@ -25,7 +25,9 @@ main:
 
 	lui	$t0,  0xFFFF		# Receiver Control memory location
 rd_wait:
-
+	# QTSpim throws a "CreateWaitable Timer failed" error that you can't
+	# quit out of which gave me a panic attack. don't let it poll too long or that error occurs.
+	# also end task wasn't working, CPU started to go pierce the heavens
 	# polling section
 	lw	$t1, 0($t0)		# load from receiver control register (ready bit)
 	andi	$t1, $t1, 1 		# clear all bits except the LSB
