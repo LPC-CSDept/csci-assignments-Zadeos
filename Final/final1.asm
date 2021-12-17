@@ -11,8 +11,8 @@
 #
 
 	.data
-pr1:	.asciiz "please enter 3 numbers (e.g. 123): "
-pr2:	.asciiz "\nresult: "
+pr1:	.asciiz "Please enter 3 numbers to be displayed.\n"
+pr2:	.asciiz "The numbers were: "
 
 	.text
 	.globl main
@@ -20,7 +20,7 @@ main:
 
 	li	$t3, 100		# multiplier
 	li	$v0, 4			# print_string sys call code
-	la	$a0, pr1		# address of prompt
+	la	$a0, pr1		# address of start prompt
 	syscall
 
 	lui	$t0,  0xFFFF		# Receiver Control memory location
@@ -42,11 +42,14 @@ rd_wait:
 					# $t2 = 1 -> 2 -> 3
 	mul	$t2, $t2, $t3		# $t2 = 100 -> 20 -> 3
 	div	$t3, $t3, 10		# adjusting place value by lowering the multiplier
+					# 100 / 10 = 10 -> 10 / 10 = 1 -> 1 / 10 = 0
 	addu	$t4, $t4, $t2		# add the output to a temporary register to print later
 	bnez	$t3, rd_wait		# if the multplier is 0, then the number has been constructed
 	nop
 
-	move	$a0, $t4
+	la	$a0, pr2		# address of exit prompt
+	syscall
+	move	$a0, $t4		# move the output to the argument register to be printed
 	li	$v0, 1			# print_int sys call code
 	syscall
 
