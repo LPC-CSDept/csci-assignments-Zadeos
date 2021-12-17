@@ -5,6 +5,11 @@
 # Question #6 of Final Exam
 # Program to take characters from user and display in console
 # until 'q' is typed.
+#
+# MIPS Simulation Settings
+# Bare Machine: OFF, Psuedo Instructions: ON, Mapped IO: ON,
+# Delayed Branches: OFF, Delayed Loads: OFF
+#
 
 	.data
 
@@ -26,7 +31,6 @@ main:
 	mfc0	$a0, $t4	# read from the status register
 	li	$a0, 0xFF11	# enables all interrupts
 	mtc0	$a0, $t4	# writes back to the status register
-
 	lui	$t0, 0xFFFF	# Receiver Control memory location
 	li	$a0, 2		# enable keyboard interrupt
 	sw	$a0, 0($t0)	# write back to the receiver data register
@@ -34,7 +38,6 @@ main:
 await:
 
 	j await			# waiting for input weeeeeee
-
 	.ktext 0x80000180
 
 sw	$v0, thing1		# to be used in ktext
