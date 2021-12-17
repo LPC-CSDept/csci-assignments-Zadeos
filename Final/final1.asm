@@ -11,11 +11,13 @@
 #
 
 	.data
+
 pr1:	.asciiz "Please enter 3 numbers to be displayed.\n"
 pr2:	.asciiz "The numbers were: "
 
 	.text
 	.globl main
+
 main:
 
 	li	$t3, 100		# multiplier
@@ -24,6 +26,7 @@ main:
 	syscall
 
 	lui	$t0,  0xFFFF		# Receiver Control memory location
+
 rd_wait:
 	# QTSpim throws a "CreateWaitable Timer failed" error that you can't
 	# quit out of which gave me a panic attack. don't let it poll too long or that error occurs.
@@ -55,4 +58,3 @@ rd_wait:
 
 	li	$v0, 10			# exit sys call code
 	syscall
-		
