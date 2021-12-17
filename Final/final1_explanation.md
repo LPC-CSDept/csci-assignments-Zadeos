@@ -7,11 +7,12 @@ Program to take digits through MM I/O and display them
 Bare Machine: OFF, Psuedo Instructions: ON, Mapped IO: ON,
 Delayed Branches: ON, Delayed Loads: ON
 #### Register use:
-`$t0` - Receiver Control memory location
-`$t1` - holds the Ready bit (Reciever Control register)
-`$t2` - holds the actual input from the Receiver Data register
-`$t3` - multiplier used in algorithm
-`$t4` - temporary register used to construct the int
+
+- `$t0` - Receiver Control memory location
+- `$t1` - holds the Ready bit (Reciever Control register)
+- `$t2` - holds the actual input from the Receiver Data register
+- `$t3` - multiplier used in algorithm
+- `$t4` - temporary register used to construct the int
 
 #### Polling snippet
 ```
