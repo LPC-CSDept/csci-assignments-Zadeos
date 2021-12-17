@@ -1,7 +1,34 @@
-## final1.asm
+# final1.asm
+
+## Explanation of the code:
+#### Description:
+Program to take digits through MM I/O and display them
+#### MIPS Simulation Settings:
+Bare Machine: OFF, Psuedo Instructions: ON, Mapped IO: ON,
+Delayed Branches: ON, Delayed Loads: ON
+#### Register use:
+`$t0` - Receiver Control memory location
+`$t1` - holds the Ready bit (Reciever Control register)
+`$t2` - holds the actual input from the Receiver Data register
+`$t3` - multiplier used in algorithm
+`$t4` - temporary register used to construct the int
+
+#### Polling snippet
+```
+	lui	$t0,  0xFFFF		# Receiver Control memory location
+rd_wait:
+	# QTSpim throws a "CreateWaitable Timer failed" error that you can't
+	# quit out of which gave me a panic attack. don't let it poll too long or that error occurs.
+	# also end task wasn't working, CPU started to go pierce the heavens
+	# polling section
+	lw	$t1, 0($t0)		# load from receiver control register (ready bit)
+	andi	$t1, $t1, 1 		# clear all bits except the LSB
+	beq	$t1, $zero, rd_wait	# branch if ready bit not 1
+	nop
+```
+This code snippet is called "polling". It is used for when you are waiting for an input. To tell if a character has inputted, we check the ready bit. If the keyboard was pressed, the ready bit would change to 0. Using this, we can poll for if it ever changes, and if it does, we handle it.
 
 ## Test Case Results
-
 #### First Test Case
 ![First Test Case (123)](./final1_123.png)</br>
 In this test case, I inputted `123` into the console to see if it would print properly.
